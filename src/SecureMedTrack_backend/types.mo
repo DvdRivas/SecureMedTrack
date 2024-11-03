@@ -5,9 +5,10 @@ import Map "mo:map/Map";
 module Types{
     public type Name = Text;
     public type Patient = {
-    //     id: Int;
+        // id: Text;
         date: Text;
         patientFullName: Text;
+        patientbrithDate: Text;
         patientAge: Nat;
         patientDiagnosis: Text;
     //     medicine: Text;
