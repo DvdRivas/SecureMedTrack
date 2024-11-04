@@ -26,5 +26,6 @@ module Types{
     };
     public type Patient = Map.Map<Date, Fields>;
     public type GetAllData = [(Date,Fields)];
-    public type GetSingleData = Fields
+    public type GetSingleData = Fields;
+    public type DataBase = Map.Map<ID, Patient>;
 };
