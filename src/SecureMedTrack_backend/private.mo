@@ -2,10 +2,12 @@ import Text "mo:base/Text";
 import Blob "mo:base/Blob";
 import Array "mo:base/Array";
 import Nat8 "mo:base/Nat8";
+import Option "mo:base/Option";
 import Types "types";
 import SHA3 "mo:sha3";
 import Map "mo:map/Map";
 import {thash} "mo:map/Map";
+
 
 
 module Mod {
@@ -27,5 +29,7 @@ module Mod {
     public func Look4Patient(dataBase:Types.DataBase, id:Types.ID): ?Types.Patient {
         return Map.get(dataBase, thash, id);
     };
-
+    public func GetValidDate(patientHist: Types.Patient, date: Types.Date): Bool {
+        return Option.get(Map.contains(patientHist, thash, date), false);
+    };
 }

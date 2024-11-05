@@ -2,8 +2,8 @@ import Types "types";
 import Map "mo:map/Map";
 import {thash} "mo:map/Map";
 import Text "mo:base/Text";
-import Option "mo:base/Option";
 import Iter "mo:base/Iter";
+import Nat "mo:base/Nat";
 import Mod "private"
 
 actor {
@@ -33,9 +33,21 @@ actor {
           return "Register and User Created, Upload Successful!";
         };
       };
-      let validDate: Bool = Option.get(Map.contains(patientHist, thash, date), false);
+      let validDate: Bool = Mod.GetValidDate(patientHist, date);
       if (validDate) {
-        return "Error, Date already registered! Ensure no mistake, or add -#number at the end of the date.";
+        var i:Nat = 1;
+        loop {
+          var dateBackup: Text = date;
+          dateBackup := dateBackup # "-" # Nat.toText(i);
+          if (Mod.GetValidDate(patientHist, dateBackup)) {
+            i += 1;
+          } else {
+            Map.set(patientHist, thash, dateBackup, data);
+            Map.set(dataBase, thash, id, patientHist);
+            return "Date already registered!. Entry upload with date: " # dateBackup;
+          };
+        }
+        
       } else {
         Map.set(patientHist, thash, date, data);
         Map.set(dataBase, thash, id, patientHist);
