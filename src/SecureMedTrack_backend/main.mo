@@ -4,18 +4,21 @@ import {thash} "mo:map/Map";
 import Text "mo:base/Text";
 import Iter "mo:base/Iter";
 import Nat "mo:base/Nat";
-import Mod "private"
+import Mod "private";
+
+
 
 actor {
   var dataBase = Map.new <Types.ID, Types.Patient> ();
-  var date: Types.Date = "";
 
-  public func setDate(inputDate: Types.Date): async Text {
-    date := inputDate;
-    return "Date Saved!";
+  stable var actualDate: Text = Mod.GetCurrentDate();
+  public query func ActualDate(): async Text {
+    actualDate := Mod.GetCurrentDate();
+    return actualDate
   };
 
   public func updateMedicalData(data: Types.Fields): async Text {
+    let date: Text = Mod.GetCurrentDate();
     if (date == ""){
       return "Please, set the date first"
     } else {
@@ -88,6 +91,5 @@ actor {
         return null;
       };
     };
-
   };
 };
