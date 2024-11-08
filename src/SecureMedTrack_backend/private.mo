@@ -4,11 +4,15 @@ import Array "mo:base/Array";
 import Nat8 "mo:base/Nat8";
 import Option "mo:base/Option";
 import Int "mo:base/Int";
+import Iter "mo:base/Iter";
+import Nat "mo:base/Nat";
+import Debug "mo:base/Debug";
 import Types "types";
 import SHA3 "mo:sha3";
 import Map "mo:map/Map";
 import {thash} "mo:map/Map";
 import Time "mo:time/time"
+
 
 
 module Mod {
@@ -37,8 +41,58 @@ module Mod {
         return Text.trim(Text.toLowercase(text), #char ' ');
     };
     public func GetCurrentDate(): Text {
-    let currentDate:Time.Date = Time.fromSec(Time.seg());
-    var date: Types.Date = Int.toText(currentDate.day) # "-" # Int.toText(currentDate.month) # "-" # Int.toText(currentDate.year);
-    return date;
+        let currentDate:Time.Date = Time.fromSec(Time.seg());
+        var date: Types.Date = Int.toText(currentDate.day) # "/" # Int.toText(currentDate.month) # "/" # Int.toText(currentDate.year);
+        return date;
+    };
+    public func GetAge(birthDate: Text): Nat {
+        let listDate = Text.split(birthDate, #char '/');
+        let currentDay: Time.Date = Time.fromSec(Time.seg());
+        let arr: [Text] = Iter.toArray(listDate);
+        let day: Nat = switch (Nat.fromText(arr[0])){
+            case (?value) {
+            value
+            }; case null {
+            0
+            };
+        };
+        let month: Nat = switch (Nat.fromText(arr[1])){
+            case (?value) {
+            value
+            }; case null {
+            0
+            };
+        };
+        let year: Nat = switch (Nat.fromText(arr[2])){
+            case (?value) {
+            value
+            }; case null {
+            0
+            };
+        };
+        if (year == 0 or month == 0 or day == 0) {
+            Debug.print("Pleas enter a valid date in format: DD/MM/YYYY");
+            return 0;
+        } else if (currentDay.month > month  or (currentDay.month >= month  and currentDay.day >=day)) {
+            return switch (Nat.fromText(Int.toText(currentDay.year - year))) {
+                case (?val) {
+                    val
+                };
+                case null {
+                    Debug.print("Pleas enter a valid date in format: DD/MM/YYYY");
+                    return 0
+                };
+            };
+        } else {
+            return switch (Nat.fromText(Int.toText(currentDay.year - year -1))){
+                case (?val) {
+                    val
+                }; 
+                case null {
+                    Debug.print("Pleas enter a valid date in format: DD/MM/YYYY");
+                    return 0;
+                };
+            };
+        };
     };
 }

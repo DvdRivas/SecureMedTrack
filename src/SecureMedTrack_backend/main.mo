@@ -7,7 +7,6 @@ import Nat "mo:base/Nat";
 import Mod "private";
 
 
-
 actor {
   var dataBase = Map.new <Types.ID, Types.Patient> ();
 
@@ -19,6 +18,16 @@ actor {
 
   public func updateMedicalData(data: Types.Fields): async Text {
     let date: Text = Mod.GetCurrentDate();
+    let record: Types.Record = {
+      patientFullName = data.patientFullName;
+      patientBirthDate = data.patientBirthDate;
+      patientDiagnosis = data.patientDiagnosis;
+      patientAge = Mod.GetAge(data.patientBirthDate);
+  //     medicine = Text;
+  //     condition = Text;
+  //     medication = Text;
+  //     lastVisit = Text;
+    };
     if (date == ""){
       return "Please, set the date first"
     } else {
@@ -29,8 +38,8 @@ actor {
         };
         case null {
           
-          let newPatient = Map.new<Types.Date, Types.Fields>();
-          Map.set(newPatient, thash, date, data);          
+          let newPatient = Map.new<Types.Date, Types.Record>();
+          Map.set(newPatient, thash, date, record);          
           Map.set(dataBase, thash, id, newPatient);        
 
           return "Register and User Created, Upload Successful!";
@@ -45,14 +54,14 @@ actor {
           if (Mod.GetValidDate(patientHist, dateBackup)) {
             i += 1;
           } else {
-            Map.set(patientHist, thash, dateBackup, data);
+            Map.set(patientHist, thash, dateBackup, record);
             Map.set(dataBase, thash, id, patientHist);
             return "Date already registered!. Entry upload with date: " # dateBackup;
           };
         }
         
       } else {
-        Map.set(patientHist, thash, date, data);
+        Map.set(patientHist, thash, date, record);
         Map.set(dataBase, thash, id, patientHist);
         return "User Found, Entry Created and Upload Successful!"
       };
@@ -60,9 +69,9 @@ actor {
 
   };
   
-  public query func getAllIds(): async ?[Types.ID]{
-    return ?Iter.toArray(Map.keys(dataBase))
-  };
+  // public query func getAllIds(): async ?[Types.ID]{
+  //   return ?Iter.toArray(Map.keys(dataBase))
+  // };
 
 
   public query func GetMedicalData(inputID: Types.RequestID): async ?Types.GetAllData{
@@ -92,4 +101,9 @@ actor {
       };
     };
   };
+ 
+//  public func Age(bd: Text): async Nat {
+//   return Mod.GetAge(bd);
+//  };
+
 };

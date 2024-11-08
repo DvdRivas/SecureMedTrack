@@ -17,15 +17,23 @@ module Types{
     public type Fields = {
         patientFullName: Text;
         patientBirthDate: Text;
-        patientAge: Nat;
         patientDiagnosis: Text;
+    //     medicine: Text;
+    //     condition: Text;
+    //     medication: Text;
+    };
+    public type Record = {
+        patientFullName: Text;
+        patientBirthDate: Text;
+        patientDiagnosis: Text;
+        patientAge: Nat;
     //     medicine: Text;
     //     condition: Text;
     //     medication: Text;
     //     lastVisit: Text;
     };
-    public type Patient = Map.Map<Date, Fields>;
-    public type GetAllData = [(Date,Fields)];
-    public type GetSingleData = Fields;
+    public type Patient = Map.Map<Date, Record>;
+    public type GetAllData = [(Date,Record)];
+    public type GetSingleData = Record;
     public type DataBase = Map.Map<ID, Patient>;
 };
