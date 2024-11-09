@@ -1,5 +1,5 @@
 import Nat "mo:base/Nat";
-import Result "mo:base/Result";
+// import Result "mo:base/Result";
 import Map "mo:map/Map";
 
 module Types{
@@ -18,19 +18,18 @@ module Types{
         patientFullName: Text;
         patientBirthDate: Text;
         patientDiagnosis: Text;
-    //     medicine: Text;
-    //     condition: Text;
-    //     medication: Text;
+        medicine: Text;
+        condition: Text;
+        medication: Text;
     };
     public type Record = {
         patientFullName: Text;
         patientBirthDate: Text;
         patientDiagnosis: Text;
         patientAge: Nat;
-    //     medicine: Text;
-    //     condition: Text;
-    //     medication: Text;
-    //     lastVisit: Text;
+        medicine: Text;
+        condition: Text;
+        medication: Text;
     };
     public type Patient = Map.Map<Date, Record>;
     public type GetAllData = [(Date,Record)];

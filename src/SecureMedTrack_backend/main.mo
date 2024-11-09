@@ -23,10 +23,9 @@ actor {
       patientBirthDate = data.patientBirthDate;
       patientDiagnosis = data.patientDiagnosis;
       patientAge = Mod.GetAge(data.patientBirthDate);
-  //     medicine = Text;
-  //     condition = Text;
-  //     medication = Text;
-  //     lastVisit = Text;
+      medicine = data.medicine;
+      condition = data.condition;
+      medication = data.medication;
     };
     if (date == ""){
       return "Please, set the date first"
